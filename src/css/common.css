@@ -1,0 +1,104 @@
+/* anuphan-regular - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Anuphan';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/anuphan-v3-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* anuphan-500 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Anuphan';
+  font-style: normal;
+  font-weight: 500;
+  src: url('./fonts/anuphan-v3-latin-500.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* anuphan-600 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Anuphan';
+  font-style: normal;
+  font-weight: 600;
+  src: url('./fonts/anuphan-v3-latin-600.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* anuphan-700 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Anuphan';
+  font-style: normal;
+  font-weight: 700;
+  src: url('./fonts/anuphan-v3-latin-700.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+body {
+  font-family: 'Anuphan', sans-serif;
+  font-weight: 600;
+  background-image: linear-gradient(to right, #9a9385, #c5bfa7, #e6dbc8);
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 4px;
+  margin-bottom: 20px;
+}
+
+.breed-select {
+  padding-left: 16px;
+  margin-left: 16px;
+  font-size: 20px;
+  color: #673147;
+  width: 80%;
+  height: 64px;
+  font-weight: 500;
+  border-radius: 12px;
+}
+
+.error {
+  padding: 16px;
+  background-color: #673147;
+  width: 70%;
+  padding: 16px;
+  margin: 16px;
+  font-size: 20px;
+  color: #e8ecef;
+  font-weight: 500;
+  border-radius: 12px;
+}
+
+.loader {
+  background-color: #bfa38a;
+  width: 70%;
+  padding: 16px;
+  margin: 16px;
+  font-size: 20px;
+  color: #482f17;
+  font-weight: 500;
+  border-radius: 12px;
+}
+
+.cat-info img {
+  width: 300px;
+  background-size: auto;
+  border-radius: 15%;
+}
+
+.cat-info.hidden {
+  display: none;
+}
+
+.cat-info {
+  display: flex;
+  column-gap: 16px;
+
+  align-items: flex-start;
+  margin: 16px;
+  font-size: 24px;
+  color: #471e2f;
+}
+
+.cat-temperament {
+}
