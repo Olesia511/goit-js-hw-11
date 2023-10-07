@@ -1,7 +1,6 @@
-import axios from 'axios';
-
 import { notiflixMessage, notiflixTotalImg, notiflixSearch } from './notiflix';
 import { createGallery } from './createMarkup';
+import { getResponseArr } from './axios';
 
 import {
   observerLastElemArr,
@@ -24,15 +23,14 @@ const galleryWindow = new SimpleLightbox('.gallery a', {
 
 //=====        CONSTs           =====
 
-const BASE_URL = 'https://pixabay.com/api/';
-const AUTH_KEY = '39799120-0adfdb8bf4f296c3a7d41d46c';
-
 const form = document.querySelector('.search-form');
 export const gallery = document.querySelector('.gallery');
 
 let currentPage = 1;
 let perPage = 40;
 let searchValue = '';
+
+export { currentPage, perPage, searchValue };
 
 form.addEventListener('submit', onSearch);
 
@@ -112,22 +110,4 @@ export function onClickLoadMore() {
       notiflixMessage();
       console.log(`error more`, err);
     });
-}
-
-//==  Функція HTTP-запита на бекенд для пошуку зображень за ключовим словом
-
-async function getResponseArr() {
-  const resp = await axios.get(`${BASE_URL}?key=${AUTH_KEY}`, {
-    params: {
-      q: `${searchValue}`,
-      image_type: 'photo',
-      orientation: 'horizontal',
-      safesearch: true,
-      per_page: `${perPage}`,
-      page: `${currentPage}`,
-    },
-  });
-
-  const arr = await resp.data;
-  return arr;
 }
