@@ -1,25 +1,48 @@
-import { breedSelect } from './index';
-import { catInfo } from './index';
+//==  Розмітка картки одного зображення
+import { gallery } from './index';
 
-export function createSelectMarkup(arr) {
-  const listSelect = arr
-    .map(({ id, name }) => {
-      return `<option id="${id}">${name}</option>`;
+function createCard(elem) {
+  const {
+    downloads,
+    comments,
+    views,
+    likes,
+    tags,
+    largeImageURL,
+    webformatURL,
+    id,
+  } = elem;
+
+  return `<div class="photo-card" id="${id}">
+  <a href="${largeImageURL}">
+  <img src="${webformatURL}" alt="${tags}" loading="lazy" /> </a>
+  <div class="info">
+    <p class="info-item">
+      <b>Likes: ${likes}</b>
+    </p>
+    <p class="info-item">
+      <b>Views: ${views}</b>
+    </p>
+    <p class="info-item">
+      <b>Comments: ${comments}</b>
+    </p>
+    <p class="info-item">
+      <b>Downloads: ${downloads}</b>
+    </p>
+  </div>  
+</div>`;
+}
+
+//==  Створення галереї зображень у разі успішного запиту
+
+function createGallery(arr) {
+  const cardList = arr
+    .map(el => {
+      return createCard(el);
     })
     .join('');
-  breedSelect.insertAdjacentHTML('beforeend', listSelect);
+
+  gallery.insertAdjacentHTML('beforeend', cardList);
 }
 
-export function createCard(cat) {
-  const { url } = cat;
-  const { name, origin, description, temperament } = cat.breeds[0];
-
-  const catCard = `<img src="${url}" alt="${name}" />
-        <div class="cat-temperament">
-        <h2>${name}</h2>
-        <h4>Country: ${origin}</h4>
-        <h5>Temperament: ${temperament}</h5>
-        <h5>${description}</h5></div>`;
-
-  catInfo.innerHTML = catCard;
-}
+export { createGallery };

@@ -1,58 +1,133 @@
-import { fetchBreeds } from './cat-api';
-import { fetchCatByBreed } from './cat-api';
-import { createSelectMarkup } from './createMarkup';
-import { createCard } from './createMarkup';
+import axios from 'axios';
 
-export const breedSelect = document.querySelector('.breed-select');
-const loaderText = document.querySelector('.loader');
-const errorText = document.querySelector('.error');
-export const catInfo = document.querySelector('.cat-info');
+import { notiflixMessage, notiflixTotalImg, notiflixSearch } from './notiflix';
+import { createGallery } from './createMarkup';
 
-breedSelect.hidden = true;
-errorText.hidden = true;
+import {
+  observerLastElemArr,
+  observerSearch,
+  observerCallbackLastElemArr,
+  observerCallback,
+} from './observer';
 
-breedSelect.addEventListener('change', onSearch);
+//====     SimpleLightbox library    =====
 
-setTimeout(() => {
-  breedSelect.hidden = false;
-  loaderText.hidden = true;
-  errorText.hidden = true;
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
-  fetchBreeds()
-    .then(data => {
-      if (data.length !== 0) {
-        createSelectMarkup(data);
+const galleryWindow = new SimpleLightbox('.gallery a', {
+  animationSpeed: 400,
+  captionDelay: 250,
+  alertError: 'Image not found',
+  heightRatio: 0.8,
+});
+
+//=====        CONSTs           =====
+
+const BASE_URL = 'https://pixabay.com/api/';
+const AUTH_KEY = '39799120-0adfdb8bf4f296c3a7d41d46c';
+
+const form = document.querySelector('.search-form');
+export const gallery = document.querySelector('.gallery');
+
+let currentPage = 1;
+let perPage = 40;
+let searchValue = '';
+
+form.addEventListener('submit', onSearch);
+
+//==  Функція завантаження та розмітки групи зображень за ключовим словом
+
+function onSearch(e) {
+  e.preventDefault();
+  gallery.innerHTML = '';
+  currentPage = 1;
+
+  searchValue = e.currentTarget.searchQuery.value.trim().toLowerCase();
+
+  if (searchValue === '') {
+    notiflixSearch();
+  } else {
+    getResponseArr()
+      .then(async res => {
+        const arr = await res.hits;
+        const allResults = res.totalHits;
+        console.log(allResults);
+
+        if (allResults === 0) {
+          notiflixMessage();
+        } else {
+          createGallery(arr);
+          notiflixTotalImg(allResults);
+
+          galleryWindow.refresh();
+          currentPage++;
+
+          const lastElementOnList = gallery.lastElementChild;
+          console.log(`lastElementOnList`, lastElementOnList);
+
+          observerCallback(arr, lastElementOnList);
+          observerSearch.observe(lastElementOnList);
+        }
+      })
+
+      .catch(err => {
+        notiflixMessage();
+        console.log(`Error search`, err);
+      });
+  }
+}
+
+//==  Функція завантаження та розмітки наступної групи зображень вже існуючого пошуку
+
+export function onClickLoadMore() {
+  getResponseArr()
+    .then(async res => {
+      const arr = await res.hits;
+      const allResults = res.totalHits;
+      const totalPage = Math.ceil(allResults / perPage);
+
+      if (currentPage <= totalPage) {
+        createGallery(arr);
+        galleryWindow.refresh();
+
+        const lastElementOnList = gallery.lastElementChild;
+
+        observerCallback(arr, lastElementOnList);
+        observerSearch.observe(lastElementOnList);
+
+        if (totalPage === currentPage) {
+          observerSearch.unobserve(lastElementOnList);
+
+          const lastElementArr = gallery.lastElementChild;
+
+          observerCallbackLastElemArr(arr, lastElementArr);
+          observerLastElemArr.observe(lastElementArr);
+        }
+        currentPage++;
+        return;
       }
     })
     .catch(err => {
-      catInfo.classList.add('hidden');
-      console.log(err);
-      breedSelect.hidden = true;
-      errorText.hidden = false;
+      notiflixMessage();
+      console.log(`error more`, err);
     });
-}, 1000);
+}
 
-function onSearch(evt) {
-  loaderText.hidden = false;
-  catInfo.classList.add('hidden');
+//==  Функція HTTP-запита на бекенд для пошуку зображень за ключовим словом
 
-  const catId = evt.target.options[evt.target.selectedIndex].id;
+async function getResponseArr() {
+  const resp = await axios.get(`${BASE_URL}?key=${AUTH_KEY}`, {
+    params: {
+      q: `${searchValue}`,
+      image_type: 'photo',
+      orientation: 'horizontal',
+      safesearch: true,
+      per_page: `${perPage}`,
+      page: `${currentPage}`,
+    },
+  });
 
-  setTimeout(() => {
-    loaderText.hidden = true;
-
-    fetchCatByBreed(catId)
-      .then(cat => {
-        if (cat.length !== 0) {
-          createCard(cat);
-          catInfo.classList.remove('hidden');
-        }
-      })
-      .catch(err => {
-        catInfo.classList.add('hidden');
-        console.log(err);
-        errorText.hidden = false;
-        breedSelect.hidden = true;
-      });
-  }, 1000);
+  const arr = await resp.data;
+  return arr;
 }

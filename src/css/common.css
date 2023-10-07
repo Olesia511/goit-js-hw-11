@@ -34,71 +34,100 @@
 body {
   font-family: 'Anuphan', sans-serif;
   font-weight: 600;
-  background-image: linear-gradient(to right, #9a9385, #c5bfa7, #e6dbc8);
+
+  background-color: #d3c9c4;
 }
+
 h1,
 h2,
 h3,
 h4,
 h5,
-h6 {
-  margin-top: 4px;
-  margin-bottom: 20px;
+h6,
+p {
+  margin: 0;
 }
 
-.breed-select {
-  padding-left: 16px;
-  margin-left: 16px;
-  font-size: 20px;
-  color: #673147;
-  width: 80%;
-  height: 64px;
-  font-weight: 500;
-  border-radius: 12px;
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
 
-.error {
-  padding: 16px;
-  background-color: #673147;
-  width: 70%;
-  padding: 16px;
-  margin: 16px;
-  font-size: 20px;
-  color: #e8ecef;
-  font-weight: 500;
-  border-radius: 12px;
+a {
+  text-decoration: none;
 }
 
-.loader {
-  background-color: #bfa38a;
-  width: 70%;
-  padding: 16px;
-  margin: 16px;
-  font-size: 20px;
-  color: #482f17;
-  font-weight: 500;
-  border-radius: 12px;
-}
-
-.cat-info img {
-  width: 300px;
-  background-size: auto;
-  border-radius: 15%;
-}
-
-.cat-info.hidden {
-  display: none;
-}
-
-.cat-info {
+.gallery {
   display: flex;
-  column-gap: 16px;
-
-  align-items: flex-start;
-  margin: 16px;
-  font-size: 24px;
-  color: #471e2f;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
 }
 
-.cat-temperament {
+.photo-card {
+  display: block;
+  width: 450px;
+
+  border-radius: 16px;
+
+  border: none;
+}
+.photo-card a {
+  display: block;
+  width: 450px;
+  height: 300px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.photo-card a img {
+  display: block;
+  height: 100%;
+  width: 100%;
+
+  object-fit: cover;
+}
+
+.info {
+  display: flex;
+  padding: 8px;
+  color: #02315e;
+
+  gap: 16px;
+}
+.info p {
+  display: block;
+  text-align: center;
+}
+
+.search-form {
+  display: block;
+  text-align: center;
+  padding: 16px;
+}
+
+.search-form input {
+  width: 50%;
+  padding: 16px 32px;
+  margin: 4px 8px;
+  color: #02315e;
+
+  font-size: 20px;
+  border-radius: 12px;
+  border: none;
+}
+
+.search-form button {
+  padding: 16px 24px;
+  text-align: center;
+  color: #02315e;
+
+  font-size: 20px;
+  border-radius: 12px;
+  border: none;
+
+  text-decoration: none;
+  margin: 4px 8px;
+  cursor: pointer;
 }
